@@ -6,13 +6,13 @@ public class CameraController : MonoBehaviour {
 
     public GameObject flyingBox;
     public GameObject groundControl;
-    private bool isStartGame = false;
     private bool hasStartedGame = false;
-    float startPosition;
     private float translation;
+    public int movementSpeed;
 
-    public int duration = 30;
-    public int timeRemaining;
+    public float duration = 30;
+    public float timePassed;
+
     public bool isCountingDown = false;
 
     // Use this for initialization
@@ -27,15 +27,20 @@ public class CameraController : MonoBehaviour {
         //transform.position = transform.position + new Vector3(translation, 0, 0);
         //transform.position = transform.position + new Vector3(0.1f, 0, 0);
 
-        if(Input.GetKeyDown(KeyCode.Space) && !hasStartedGame)
+        Count(hasStartedGame);
+
+        if (Input.GetKeyDown(KeyCode.Space) && !hasStartedGame)
         {
-            isStartGame = true;
-            Debug.Log("Space is Down");
-            Begin();
+            timePassed = 0;
             hasStartedGame = true;
+            SideCameraControl();
         }
 
-        if(isStartGame && !isCountingDown)
+        if (timePassed >= duration)
+            hasStartedGame = false;
+
+
+        if (hasStartedGame && isCountingDown)
         {
             SideCameraControl();
         }
@@ -43,13 +48,18 @@ public class CameraController : MonoBehaviour {
 
     void SideCameraControl()
     {
-         translation = Time.deltaTime * 10;
-         transform.position = transform.position + new Vector3(translation, 0, 0);
-
-        if (isCountingDown)
-            isStartGame = false;
+        translation = Time.deltaTime * movementSpeed;
+        transform.position = transform.position + new Vector3(translation, 0, 0);
+        isCountingDown = true;
     }
 
+    public void Count(bool gameStarted)
+    {
+        if(gameStarted)
+            timePassed += Time.deltaTime;
+    }
+
+    /*
     public void Begin()
     {
         if (!isCountingDown)
@@ -75,4 +85,6 @@ public class CameraController : MonoBehaviour {
     {
         return timeRemaining;
     }
+
+    */
 }

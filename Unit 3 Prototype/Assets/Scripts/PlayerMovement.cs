@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour {
      * int jumpAmount is the variable for how high the player can jump
      * in gravity is the variable given to bring the player back to ground
      * 
-     * GameObject playerRunner is the object which is moved
+     * GameObject playerControl is the object which is moved
      * 
      */
     bool canJump;
@@ -29,16 +29,18 @@ public class PlayerMovement : MonoBehaviour {
     bool gameStarted;
     bool sliding;
 
-    float lastHeight;
     float runningSpeed;
     public float slideAmount;
+    public float timePassed;
 
+    public float duration = 30;
     public int jumpAmount;
     public int gravityAmount;
+    public int movementSpeed;
 
-    Vector3 fullSize;
-
-    public GameObject playerRunner;
+    public GameObject playerControl;
+    public GameObject runningPlayer;
+    public GameObject slidingPlayer;
 
 
     /*
@@ -52,11 +54,10 @@ public class PlayerMovement : MonoBehaviour {
      */
     void Start ()
     {
-        lastHeight = playerRunner.transform.position.y;
         gameStarted = false;
         jumping = false;
         sliding = false;
-        fullSize = playerRunner.transform.localScale;
+        slidingPlayer.SetActive(false);
     }
 	
 	/*
@@ -69,7 +70,6 @@ public class PlayerMovement : MonoBehaviour {
      *  call Jumping()
      * If the down arrow is pressed and canSlide is true
      *  call Sliding()
-     * When the down arrow is released 
      * 
      * It also calls the methods Gravity() and Running() every frame
      * 
@@ -77,18 +77,27 @@ public class PlayerMovement : MonoBehaviour {
 	void Update ()
     {
         //canSlide = CanSlide(lastRotation);
+        Count(gameStarted);
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && canJump)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && !sliding)
             Jumping();
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) && canSlide)
+        if (Input.GetKeyDown(KeyCode.DownArrow) && !jumping)
             Sliding();
 
-        if (Input.GetKeyDown(KeyCode.Space))
-            gameStarted = true;
+        if (Input.GetKeyDown(KeyCode.Space) && !gameStarted)
+        {
+            GameStart();
+        }
 
         if (Input.GetKeyUp(KeyCode.DownArrow))
             Stand();
+
+        if (timePassed >= duration)
+        {
+            gameStarted = false;
+        }
+
         Gravity(jumping);
         Running();
         //Running(gameStarted);
@@ -97,7 +106,7 @@ public class PlayerMovement : MonoBehaviour {
     /*
     bool CanJump(float lHeight)
     {
-        float currentHeight = playerRunner.transform.position.y;
+        float currentHeight = playerControl.transform.position.y;
         if (currentHeight == lHeight)
         {
             lastHeight = currentHeight;
@@ -116,7 +125,9 @@ public class PlayerMovement : MonoBehaviour {
     void Gravity(bool currentlyJumping)
     {
         if (currentlyJumping)
+        {
             transform.position = transform.position + new Vector3(0, (-gravityAmount * Time.deltaTime), 0);
+        }
     }
 
     void Jumping()
@@ -130,19 +141,33 @@ public class PlayerMovement : MonoBehaviour {
 
     void Sliding()
     {
-        transform.localScale = transform.localScale + (Vector3.one * -0.5f);
+        sliding = true;
+        slidingPlayer.SetActive(true);
+        runningPlayer.SetActive(false);
     }
 
     void Stand()
     {
-        transform.localScale = fullSize;
+        sliding = false;
+        runningPlayer.SetActive(true);
+        slidingPlayer.SetActive(false);
+    }
+
+    void GameStart()
+    {
+        runningSpeed = Time.deltaTime * movementSpeed;
+        transform.position = transform.position + new Vector3(runningSpeed, 0, 0);
+        jumping = true;
+        transform.position = transform.position + new Vector3(0, (140 * Time.deltaTime), 0);
+        gameStarted = true;
+        timePassed = 0;
     }
 
     void Running()
     {
         if (gameStarted)
         {
-            runningSpeed = Time.deltaTime * 10;
+            runningSpeed = Time.deltaTime * movementSpeed;
             transform.position = transform.position + new Vector3(runningSpeed, 0, 0);
         }
     }
@@ -152,15 +177,17 @@ public class PlayerMovement : MonoBehaviour {
         if (other.tag == "Ground")
         {
             jumping = false;
-            canJump = true;
-            canSlide = true;
         }
 
         if(other.tag == "Falling")
         {
             jumping = true;
-            canJump = false;
-            canSlide = false;
         }
+    }
+
+    public void Count(bool gameStarted)
+    {
+        if (gameStarted)
+            timePassed += Time.deltaTime;
     }
 }
