@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour {
 
     public GameObject flyingBox;
+    public GameObject groundControl;
     private bool isStartGame = false;
     private bool hasStartedGame = false;
     float startPosition;
@@ -17,7 +18,6 @@ public class CameraController : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        startPosition = flyingBox.transform.position.x;
     }
 	
 	// Update is called once per frame
@@ -46,10 +46,8 @@ public class CameraController : MonoBehaviour {
          translation = Time.deltaTime * 10;
          transform.position = transform.position + new Vector3(translation, 0, 0);
 
-        if(flyingBox.transform.position.x >= 60)
-        {
+        if (isCountingDown)
             isStartGame = false;
-        }
     }
 
     public void Begin()
@@ -71,5 +69,10 @@ public class CameraController : MonoBehaviour {
         }
         else
             isCountingDown = true;
+    }
+
+    private int TimeRemaining()
+    {
+        return timeRemaining;
     }
 }
