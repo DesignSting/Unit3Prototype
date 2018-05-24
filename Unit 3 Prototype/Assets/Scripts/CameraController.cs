@@ -48,9 +48,9 @@ public class CameraController : MonoBehaviour {
 
     void SideCameraControl()
     {
+        isCountingDown = true;
         translation = Time.deltaTime * movementSpeed;
         transform.position = transform.position + new Vector3(translation, 0, 0);
-        isCountingDown = true;
     }
 
     public void Count(bool gameStarted)

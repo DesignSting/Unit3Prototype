@@ -71,8 +71,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1939700884801822}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -38, y: -12, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -38.5, y: -11, z: 0.5}
+  m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_Children:
   - {fileID: 4974334445503078}
   - {fileID: 4746488085890900}
@@ -216,7 +216,7 @@ MonoBehaviour:
   slideAmount: 0
   timePassed: 0
   duration: 20
-  jumpAmount: 250
+  jumpAmount: 300
   gravityAmount: 5
   movementSpeed: 15
   playerControl: {fileID: 1939700884801822}

@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour {
     bool jumping;
     bool gameStarted;
     bool sliding;
+    bool phaseStatis;
 
     float runningSpeed;
     public float slideAmount;
@@ -58,6 +59,8 @@ public class PlayerMovement : MonoBehaviour {
         jumping = false;
         sliding = false;
         slidingPlayer.SetActive(false);
+        runningPlayer.SetActive(true);
+        phaseStatis = false;
     }
 	
 	/*
@@ -158,7 +161,7 @@ public class PlayerMovement : MonoBehaviour {
         runningSpeed = Time.deltaTime * movementSpeed;
         transform.position = transform.position + new Vector3(runningSpeed, 0, 0);
         jumping = true;
-        transform.position = transform.position + new Vector3(0, (140 * Time.deltaTime), 0);
+        transform.position = transform.position + new Vector3(0, (200 * Time.deltaTime), 0);
         gameStarted = true;
         timePassed = 0;
     }
@@ -174,7 +177,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Ground")
+        if (other.tag == ("Ground"))
         {
             jumping = false;
         }
