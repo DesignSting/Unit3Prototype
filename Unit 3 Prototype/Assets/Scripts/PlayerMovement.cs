@@ -12,13 +12,18 @@ public class PlayerMovement : MonoBehaviour {
      * bool jumping returns true if the player is currently in the action of jumping
      * bool gameStarted returns true after the player has started the game
      * bool sliding returns true if the player is currenty in the action of sliding
+     * bool isGrounded returns true if the collision on the player is with a ground tag
+     * bool phaseThrough returns true if currently behind a table
      * 
      * float lastHeight is used to determine if the player is in the act of jumping
-     * float runningSpeed is the variable of the players right-to-screen speed-
+     * float runningSpeed is the variable of the players right-to-screen speed
      * float slideAmount is the variable to 'shrink' the player for a slide
      * 
+     * int duration is simply a counter for how long the game is played
      * int jumpAmount is the variable for how high the player can jump
-     * in gravity is the variable given to bring the player back to ground
+     * int gravityAmount is the variable given to bring the player back to ground, artifical gravity
+     * int movementSpeed is the multiplier to form the runningSpeed
+     * int tipsHeld is the current amount of tips help by the player
      * 
      * GameObject playerControl is the object which is moved
      * 
@@ -28,7 +33,8 @@ public class PlayerMovement : MonoBehaviour {
     bool jumping;
     bool gameStarted;
     bool sliding;
-    bool phaseStatis;
+    bool isGrounded;
+    bool phaseThrough;
 
     float runningSpeed;
     public float slideAmount;
@@ -38,10 +44,17 @@ public class PlayerMovement : MonoBehaviour {
     public int jumpAmount;
     public int gravityAmount;
     public int movementSpeed;
+    private int defaultSpeed;
+    private int tipsHeld;
+    private int drinksHeld;
 
     public GameObject playerControl;
     public GameObject runningPlayer;
     public GameObject slidingPlayer;
+    public GameObject currentPatron;
+    public GameObject cameraControl;
+
+    private Rigidbody rb;
 
 
     /*
@@ -60,7 +73,10 @@ public class PlayerMovement : MonoBehaviour {
         sliding = false;
         slidingPlayer.SetActive(false);
         runningPlayer.SetActive(true);
-        phaseStatis = false;
+        isGrounded = false;
+        defaultSpeed = 15;
+        movementSpeed = defaultSpeed;
+        rb = GetComponentInChildren<Rigidbody>();
     }
 	
 	/*
@@ -80,7 +96,7 @@ public class PlayerMovement : MonoBehaviour {
 	void Update ()
     {
         //canSlide = CanSlide(lastRotation);
-        Count(gameStarted);
+        //Count(gameStarted);
 
         if (Input.GetKeyDown(KeyCode.UpArrow) && !sliding)
             Jumping();
@@ -127,18 +143,35 @@ public class PlayerMovement : MonoBehaviour {
 
     void Gravity(bool currentlyJumping)
     {
+        /*
         if (currentlyJumping)
         {
             transform.position = transform.position + new Vector3(0, (-gravityAmount * Time.deltaTime), 0);
         }
+        */
+        if (!currentlyJumping)
+            gravityAmount = 40;
+        if(currentlyJumping)
+        {
+            rb.AddForce(Vector3.down * gravityAmount);
+            gravityAmount++;
+        }
+        
     }
 
     void Jumping()
     {
-        if (!jumping)
+        /*if (!jumping)
         {
             jumping = true;
             transform.position = transform.position + new Vector3(0, (jumpAmount * Time.deltaTime), 0);
+        }
+        */
+        if(!jumping)
+        {
+            jumping = true;
+            //rb.AddForce(Vector3.up * jumpAmount);
+            rb.velocity = Vector3.up * jumpAmount;
         }
     }
 
@@ -166,7 +199,7 @@ public class PlayerMovement : MonoBehaviour {
         timePassed = 0;
     }
 
-    void Running()
+    public void Running()
     {
         if (gameStarted)
         {
@@ -175,22 +208,104 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    public void ChangeSpeed()
     {
-        if (other.tag == ("Ground"))
+        movementSpeed = defaultSpeed;
+        //cameraControl.AddComponent<CameraController>().ChangeSpeed();
+    }
+    public void ChangeSpeed(int newSpeed)
+    {
+        jumping = false;
+        movementSpeed = newSpeed;
+        //cameraControl.get
+    }
+
+    public void AddTips(int toAdd)
+    {
+        tipsHeld += toAdd;
+        Debug.Log("Tips Held: " + tipsHeld);
+    }
+
+    public void AddDrink(int toAdd)
+    {
+        drinksHeld += toAdd;
+        Debug.Log("Drinks Held: " + drinksHeld);
+    }
+
+    public void SubDrinks()
+    {
+        --drinksHeld;
+    }
+
+    public int ShowDrinks()
+    {
+        Debug.Log("Drinks");
+        return drinksHeld;
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.tag == "Ground")
         {
+            isGrounded = true;
             jumping = false;
         }
 
-        if(other.tag == "Falling")
+        if (other.tag == "TableTop")
         {
-            jumping = true;
+            if (!phaseThrough)
+                jumping = false;
+            else
+                jumping = true;
+        }
+
+        if (other.tag == "Falling")
+        {
+            if (!isGrounded)
+                jumping = false;
+            else
+                jumping = true;
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Table")
+        {
+            phaseThrough = true;
+        }
+
+        if (other.tag == "Ground")
+        {
+            isGrounded = true;
+            jumping = false;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Table")
+            phaseThrough = false;
+    }
+
+
+   /* 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Patron")
+        {
+            //tipsHeld += other.GetComponentInChildren<Patron>().sendTips();
+            tipsHeld += other.GetComponent<Patron>().sendTips();
+            //Debug.Log(tipsHeld);
+        }
+    }
+    
     public void Count(bool gameStarted)
     {
         if (gameStarted)
             timePassed += Time.deltaTime;
     }
+    */
 }

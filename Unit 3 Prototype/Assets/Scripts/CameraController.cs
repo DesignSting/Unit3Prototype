@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraController : MonoBehaviour {
 
@@ -9,15 +10,18 @@ public class CameraController : MonoBehaviour {
     private bool hasStartedGame = false;
     private float translation;
     public int movementSpeed;
+    private int defaultSpeed;
 
-    public float duration = 30;
-    public float timePassed;
+    //public float duration = 30;
+    //public float timePassed;
 
     public bool isCountingDown = false;
 
     // Use this for initialization
     void Start ()
     {
+        defaultSpeed = 15;
+        movementSpeed = defaultSpeed;
     }
 	
 	// Update is called once per frame
@@ -27,20 +31,23 @@ public class CameraController : MonoBehaviour {
         //transform.position = transform.position + new Vector3(translation, 0, 0);
         //transform.position = transform.position + new Vector3(0.1f, 0, 0);
 
-        Count(hasStartedGame);
+        //Count(hasStartedGame);
 
         if (Input.GetKeyDown(KeyCode.Space) && !hasStartedGame)
         {
-            timePassed = 0;
+            //timePassed = 0;
             hasStartedGame = true;
             SideCameraControl();
         }
 
-        if (timePassed >= duration)
-            hasStartedGame = false;
+        if (Input.GetKeyDown(KeyCode.R))
+            SceneManager.LoadScene(1);
+
+        //if (timePassed >= duration)
+        //    hasStartedGame = false;
 
 
-        if (hasStartedGame && isCountingDown)
+        if (hasStartedGame)
         {
             SideCameraControl();
         }
@@ -48,18 +55,28 @@ public class CameraController : MonoBehaviour {
 
     void SideCameraControl()
     {
-        isCountingDown = true;
         translation = Time.deltaTime * movementSpeed;
         transform.position = transform.position + new Vector3(translation, 0, 0);
     }
 
+    public void ChangeSpeed()
+    {
+        Debug.Log("Default Speed");
+        movementSpeed = defaultSpeed;
+    }
+    public void ChangeSpeed(int newSpeed)
+    {
+        movementSpeed = newSpeed;
+        Debug.Log("New Speed");
+    }
+    /*
     public void Count(bool gameStarted)
     {
         if(gameStarted)
             timePassed += Time.deltaTime;
     }
 
-    /*
+    
     public void Begin()
     {
         if (!isCountingDown)

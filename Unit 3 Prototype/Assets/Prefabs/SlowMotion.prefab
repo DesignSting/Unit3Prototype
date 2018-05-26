@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1172882140892316}
+  m_IsPrefabParent: 1
+--- !u!1 &1172882140892316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4513902182463234}
+  - component: {fileID: 114266103920339398}
+  - component: {fileID: 65461427883614724}
+  - component: {fileID: 114674163854568306}
+  - component: {fileID: 114410086350628052}
+  m_Layer: 0
+  m_Name: SlowMotion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4513902182463234
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1172882140892316}
+  m_LocalRotation: {x: -0, y: -0, z: -0.5462531, w: 0.83762026}
+  m_LocalPosition: {x: -22.96, y: -4.32, z: 0.14}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -66.221}
+--- !u!65 &65461427883614724
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1172882140892316}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 0.2, z: 3}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114266103920339398
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1172882140892316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cb6edb3807a7742becae690fd9fce6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRunner: {fileID: 0}
+  cameraController: {fileID: 0}
+--- !u!114 &114410086350628052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1172882140892316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdae3d898ce4ed44496524655c09af32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRunner: {fileID: 1939700884801822, guid: eeb7e4a6e0e1fbc4e8f7da41a9ca52d0,
+    type: 2}
+  cameraController: {fileID: 0}
+--- !u!114 &114674163854568306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1172882140892316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c11773471bd24c4ab2236af06977b62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainColor: {r: 0.8235294, g: 0.7932526, b: 0.7932526, a: 1}
+  lineColor: {r: 1, g: 0, b: 0, a: 1}
