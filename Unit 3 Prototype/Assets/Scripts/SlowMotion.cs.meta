@@ -1,11 +1,15 @@
 fileFormatVersion: 2
 guid: cdae3d898ce4ed44496524655c09af32
-timeCreated: 1527217981
+timeCreated: 1527316925
 licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - playerRunner: {fileID: 1939700884801822, guid: eeb7e4a6e0e1fbc4e8f7da41a9ca52d0,
+      type: 2}
+  - cameraController: {fileID: 1649548031915218, guid: 858604b023fc9a141b396882056b86ca,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

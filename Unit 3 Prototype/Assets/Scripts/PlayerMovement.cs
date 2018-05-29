@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -30,11 +31,12 @@ public class PlayerMovement : MonoBehaviour {
      */
     bool canJump;
     bool canSlide;
-    bool jumping;
+    public bool jumping;
     bool gameStarted;
     bool sliding;
     bool isGrounded;
     bool phaseThrough;
+    bool forceSlide;
 
     float runningSpeed;
     public float slideAmount;
@@ -77,6 +79,8 @@ public class PlayerMovement : MonoBehaviour {
         defaultSpeed = 15;
         movementSpeed = defaultSpeed;
         rb = GetComponentInChildren<Rigidbody>();
+        canSlide = false;
+        forceSlide = false;
     }
 	
 	/*
@@ -109,13 +113,16 @@ public class PlayerMovement : MonoBehaviour {
             GameStart();
         }
 
-        if (Input.GetKeyUp(KeyCode.DownArrow))
+        if (Input.GetKeyUp(KeyCode.DownArrow) && !forceSlide)
             Stand();
 
         if (timePassed >= duration)
         {
             gameStarted = false;
         }
+
+        if (Input.GetKeyUp(KeyCode.R))
+            SceneManager.LoadScene(0);
 
         Gravity(jumping);
         Running();
@@ -151,15 +158,17 @@ public class PlayerMovement : MonoBehaviour {
         */
         if (!currentlyJumping)
             gravityAmount = 40;
+
         if(currentlyJumping)
         {
+
             rb.AddForce(Vector3.down * gravityAmount);
             gravityAmount++;
         }
         
     }
 
-    void Jumping()
+    public void Jumping()
     {
         /*if (!jumping)
         {
@@ -170,23 +179,37 @@ public class PlayerMovement : MonoBehaviour {
         if(!jumping)
         {
             jumping = true;
-            //rb.AddForce(Vector3.up * jumpAmount);
             rb.velocity = Vector3.up * jumpAmount;
         }
     }
 
-    void Sliding()
+    public void Sliding()
     {
         sliding = true;
         slidingPlayer.SetActive(true);
         runningPlayer.SetActive(false);
     }
 
-    void Stand()
+    public void Sliding(bool slide)
+    {
+        forceSlide = true;
+        SetJumping(true);
+        Sliding();
+    }
+
+    public void Stand()
     {
         sliding = false;
         runningPlayer.SetActive(true);
         slidingPlayer.SetActive(false);
+        canSlide = true;
+    }
+
+    public void Stand(bool stand)
+    {
+        forceSlide = false;
+        SetJumping(false);
+        Stand();
     }
 
     void GameStart()
@@ -243,7 +266,26 @@ public class PlayerMovement : MonoBehaviour {
         return drinksHeld;
     }
 
+    public bool PhaseThrough()
+    {
+        return phaseThrough;
+    }
 
+    public void SetJumping(bool jump)
+    {
+        jumping = jump;
+    }
+
+    public void Climb()
+    {
+        float climbingSpeed = Time.deltaTime * 20;
+        transform.position = transform.position + new Vector3(0, climbingSpeed, 0);
+    }
+    public void StopClimb()
+    {
+        transform.position = transform.position + new Vector3(0, 0, 0);
+        Running();
+    }
     private void OnTriggerEnter(Collider other)
     {
 
@@ -256,7 +298,9 @@ public class PlayerMovement : MonoBehaviour {
         if (other.tag == "TableTop")
         {
             if (!phaseThrough)
+            {
                 jumping = false;
+            }
             else
                 jumping = true;
         }

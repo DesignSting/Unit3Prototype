@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EndLevel : MonoBehaviour {
+public class DropTrigger : MonoBehaviour {
 
     public GameObject playerRunner;
     public GameObject cameraController;
 
-    private int newSpeed = 15;
-
-
+    private int newSpeed = 0;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Runner")
         {
             other.GetComponentInParent<PlayerMovement>().ChangeSpeed(newSpeed);
+            other.GetComponentInParent<PlayerMovement>().SetJumping(true);
             cameraController.GetComponentInParent<CameraController>().ChangeSpeed(newSpeed);
         }
     }

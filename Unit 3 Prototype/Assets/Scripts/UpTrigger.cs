@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EndLevel : MonoBehaviour {
+public class UpTrigger : MonoBehaviour {
 
-    public GameObject playerRunner;
     public GameObject cameraController;
 
-    private int newSpeed = 15;
+    private int newSpeed = 0;
 
-
-
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Runner")
         {
             other.GetComponentInParent<PlayerMovement>().ChangeSpeed(newSpeed);
+            other.GetComponentInParent<PlayerMovement>().Climb();
             cameraController.GetComponentInParent<CameraController>().ChangeSpeed(newSpeed);
         }
     }
@@ -25,6 +23,7 @@ public class EndLevel : MonoBehaviour {
         if (other.tag == "Runner")
         {
             other.GetComponentInParent<PlayerMovement>().ChangeSpeed();
+            other.GetComponentInParent<PlayerMovement>().StopClimb();
             cameraController.GetComponentInParent<CameraController>().ChangeSpeed();
         }
     }

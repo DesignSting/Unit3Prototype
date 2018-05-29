@@ -1,13 +1,11 @@
 fileFormatVersion: 2
-guid: 77cb6edb3807a7742becae690fd9fce6
-timeCreated: 1527319948
+guid: 869ed92f3dd2e504ea5503eae5c4dfc6
+timeCreated: 1527611018
 licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - playerRunner: {fileID: 1939700884801822, guid: eeb7e4a6e0e1fbc4e8f7da41a9ca52d0,
-      type: 2}
   - cameraController: {fileID: 1649548031915218, guid: 858604b023fc9a141b396882056b86ca,
       type: 2}
   executionOrder: 0
