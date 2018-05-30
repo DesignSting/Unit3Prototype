@@ -6,7 +6,6 @@ public class ForceJump : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("JUMP GOD DAMN YOU!");
         other.GetComponentInParent<PlayerMovement>().Jumping();
         other.GetComponentInParent<PlayerMovement>().SetJumping(true);
     }

@@ -21,6 +21,8 @@ public class TableControl : MonoBehaviour {
         if (other.tag == "Runner")
         {
             tableTop.GetComponentInChildren<BoxCollider>().enabled = false;
+            if (playerRunner.GetComponent<PlayerMovement>().PhaseThrough() == false)
+                other.GetComponentInParent<PlayerMovement>().SetJumping(true);
         }
     }
 }

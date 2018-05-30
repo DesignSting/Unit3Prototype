@@ -24,6 +24,7 @@ public class SlowMotion : MonoBehaviour {
         {
             other.GetComponentInParent<PlayerMovement>().ChangeSpeed();
             cameraController.GetComponentInParent<CameraController>().ChangeSpeed();
+            other.GetComponentInParent<PlayerMovement>().SetJumping(true);
         }
     }
 }

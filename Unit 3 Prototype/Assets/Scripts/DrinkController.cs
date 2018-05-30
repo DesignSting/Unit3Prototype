@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class DrinkController : MonoBehaviour {
 
-    public GameObject playerRunner;
-
     private int drinkAmount = 1;
 
     private void OnTriggerEnter(Collider other)

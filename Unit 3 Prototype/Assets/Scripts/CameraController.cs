@@ -61,13 +61,11 @@ public class CameraController : MonoBehaviour {
 
     public void ChangeSpeed()
     {
-        Debug.Log("Default Speed");
         movementSpeed = defaultSpeed;
     }
     public void ChangeSpeed(int newSpeed)
     {
         movementSpeed = newSpeed;
-        Debug.Log("New Speed");
     }
     /*
     public void Count(bool gameStarted)

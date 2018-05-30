@@ -24,6 +24,7 @@ public class UpTrigger : MonoBehaviour {
         {
             other.GetComponentInParent<PlayerMovement>().ChangeSpeed();
             other.GetComponentInParent<PlayerMovement>().StopClimb();
+            other.GetComponentInParent<PlayerMovement>().SetJumping(true);
             cameraController.GetComponentInParent<CameraController>().ChangeSpeed();
         }
     }

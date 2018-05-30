@@ -262,7 +262,6 @@ public class PlayerMovement : MonoBehaviour {
 
     public int ShowDrinks()
     {
-        Debug.Log("Drinks");
         return drinksHeld;
     }
 
