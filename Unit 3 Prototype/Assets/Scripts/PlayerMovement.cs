@@ -31,9 +31,9 @@ public class PlayerMovement : MonoBehaviour {
      */
     bool canJump;
     bool canSlide;
-    public bool jumping;
+    bool jumping;
     bool gameStarted;
-    bool sliding;
+    public bool sliding;
     bool isGrounded;
     bool phaseThrough;
     bool forceSlide;
@@ -252,7 +252,6 @@ public class PlayerMovement : MonoBehaviour {
     public void AddDrink(int toAdd)
     {
         drinksHeld += toAdd;
-        Debug.Log("Drinks Held: " + drinksHeld);
     }
 
     public void SubDrinks()
@@ -285,6 +284,11 @@ public class PlayerMovement : MonoBehaviour {
         transform.position = transform.position + new Vector3(0, 0, 0);
         Running();
     }
+    public bool GetSliding()
+    {
+        return sliding;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
 

@@ -12,7 +12,10 @@ public class TableControl : MonoBehaviour {
         if (other.tag == "Runner")
         {
             if(playerRunner.GetComponent<PlayerMovement>().PhaseThrough() == false)
+            {
                 tableTop.GetComponentInChildren<BoxCollider>().enabled = true;
+                other.GetComponentInParent<PlayerMovement>().SetJumping(false);
+            }
         }
     }
 
@@ -21,8 +24,8 @@ public class TableControl : MonoBehaviour {
         if (other.tag == "Runner")
         {
             tableTop.GetComponentInChildren<BoxCollider>().enabled = false;
-            if (playerRunner.GetComponent<PlayerMovement>().PhaseThrough() == false)
-                other.GetComponentInParent<PlayerMovement>().SetJumping(true);
+            /*if (playerRunner.GetComponent<PlayerMovement>().PhaseThrough() == false)
+                other.GetComponentInParent<PlayerMovement>().SetJumping(true);*/
         }
     }
 }

@@ -41,7 +41,7 @@ public class CameraController : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.R))
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(0);
 
         //if (timePassed >= duration)
         //    hasStartedGame = false;
